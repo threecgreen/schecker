@@ -1,0 +1,7 @@
+config.py
+*.idea
+*.git
+*.egg-info
+*.cache
+__pycache__
+
