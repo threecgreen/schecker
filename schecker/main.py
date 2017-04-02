@@ -13,7 +13,7 @@ Examples:
     $ python main.py -u https://classes.usc.edu/term-20173/classes/arlt/ https://classes.usc.edu/term-20173/classes/gct 
       -s 32876 10320 -n +11234567890
     
-    To check continuously, simply add the --continuous flag
+    To check continuously, simply add the --continuous True flag
 """
 import argparse
 import logging
