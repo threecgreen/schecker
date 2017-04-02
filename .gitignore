@@ -1,6 +1,7 @@
 config.py
 *.idea
 *.git
+*.log
 *.egg-info
 *.cache
 __pycache__
