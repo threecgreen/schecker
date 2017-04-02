@@ -51,7 +51,7 @@ def main(notify_number: str, urls: List[str], sections: List[str]):
 
 if __name__ == "__main__":
     # Logging configuration
-    logging.basicConfig(level=logging.DEBUG,
+    logging.basicConfig(level=logging.INFO,
                         filename="schecker.log",
                         filemode="a",
                         format="%(asctime)s %(name)-12s %(levelname)-8s %(message)s",
