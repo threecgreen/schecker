@@ -39,7 +39,12 @@ def main(notify_number: str, urls: List[str], sections: List[str]):
         raise ValueError("Must provide the same number of course sections as course URLs, even if there are "
                          "repeat URLs.")
     for url, section in zip(urls, sections):
-        seats_available = check_course_availability(url, section)
+        try:
+            seats_available = check_course_availability(url, section)
+        except ConnectionResetError:
+            logging.warning("ConnectionResetError was caught; waiting two minutes to try again.")            
+            sleep(120)
+
         if seats_available > 0:
             message = std_message.format(section=section, num_seats=seats_available)
             logging.info("{} available seats found for {}.".format(seats_available, section))
@@ -75,8 +80,8 @@ if __name__ == "__main__":
         logging.info("Starting continuous running.")
         while True:
             main(args.notify_phone_number, args.urls, args.sections)
-            # Run every two minutes
-            sleep(240)
+            # Run every eight minutes
+            sleep(480)
     else:
         # Run once
         main(args.notify_phone_number, args.urls, args.sections)
