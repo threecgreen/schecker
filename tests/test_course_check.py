@@ -1,4 +1,5 @@
 import pytest
+import os
 from bs4 import BeautifulSoup
 
 from schecker.course_check import find_section, find_registration, parse_registration
@@ -6,7 +7,8 @@ from schecker.course_check import find_section, find_registration, parse_registr
 
 @pytest.fixture
 def page_bs():
-    with open("test_usc_courses_webpage.html", "r") as f:
+    here = os.path.relpath(os.path.dirname(__file__))
+    with open(os.path.join(here, "test_usc_courses_webpage.html"), "r") as f:
         html = f.read()
     return BeautifulSoup(html, "html.parser")
 

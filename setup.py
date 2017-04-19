@@ -17,10 +17,12 @@ reqs = [str(ir.req) for ir in install_reqs]
 
 setup(
     name="schecker",
-    version="0.1.1",
+    version="0.2.0",
     description="Monitors and notifies when requested USC courses open up.",
     author="Carter Green",
     license="MIT License",
     packages=find_packages(exclude=[".cache", ".idea", "doc", "tests"]),
     install_requires=reqs,
+    setup_requires=["pytest-runner"],
+    tests_require=["pytest"],
 )
