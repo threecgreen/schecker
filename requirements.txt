@@ -1,4 +1,6 @@
 beautifulsoup4==4.5.3
 pytest==3.0.7
+pytest-runner==2.11.1
 requests==2.13.0
+sendsms==0.2.0
 twilio==5.7.0
