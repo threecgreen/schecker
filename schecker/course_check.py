@@ -1,10 +1,16 @@
 """
-Contains all logic for checking class availability from the classes.usc.edu website.
+Contains the CourseToCheck namedtuple used for program configuration and all logic for checking class availability 
+from the classes.usc.edu website.
 """
 import logging
 import re
 import requests
 from bs4 import BeautifulSoup
+from collections import namedtuple
+
+
+CourseToCheck = namedtuple("CourseToCheck", ["name", "section_number", "schedule_url",
+                                             "contact_phone_number"])
 
 
 def get_webpage_soup(url: str) -> BeautifulSoup:
@@ -93,6 +99,8 @@ def check_course_availability(url: str, section: str) -> int:
     if registration_content is None:
         logging.warning("The registration HTML could not be properly parsed for section {}.".format(section))
         return 0
-    return parse_registration(registration_content)
-
-
+    try:
+        return parse_registration(registration_content)
+    except ValueError as e:
+        logging.warning("Error parsing the registration tag.")
+        logging.info(e)
