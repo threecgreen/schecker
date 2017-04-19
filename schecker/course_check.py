@@ -99,6 +99,8 @@ def check_course_availability(url: str, section: str) -> int:
     if registration_content is None:
         logging.warning("The registration HTML could not be properly parsed for section {}.".format(section))
         return 0
-    return parse_registration(registration_content)
-
-
+    try:
+        return parse_registration(registration_content)
+    except ValueError as e:
+        logging.warning("Error parsing the registration tag.")
+        logging.info(e)
