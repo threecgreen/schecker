@@ -2,6 +2,7 @@
 Contains SMSNotifier class for creating objects that send SMS notifications using Twilio.
 """
 from twilio.rest import TwilioRestClient
+from typing import List
 
 import schecker.config as config
 
@@ -31,14 +32,17 @@ class SMSNotifier(object):
         return "<SMSNotifier(from_phone_number={0.from_phone_number!r}," \
                " default_msg_str={0.default_msg_str!r})>".format(self)
 
-    def notify(self, message: str, to_phone_number: str):
+    def notify(self, message: str, to_phone_numbers: (str, List[str])):
         """
-        Send the passed message as an SMS to the to_phone_number.
+        Send the passed message as an SMS to the to_phone_number phone number(s).
         
         Args:
             message: The message to be sent.
-            to_phone_number: The receiving phone number of the SMS messages.
+            to_phone_numbers: The receiving phone number or phone numbers of the SMS messages.
         """
-        self._client.messages.create(to=to_phone_number,
-                                     from_=self.from_phone_number,
-                                     body=message)
+        if isinstance(to_phone_numbers, str):
+            to_phone_number = [to_phone_numbers]
+        for to_phone_number in to_phone_numbers:
+            self._client.messages.create(to=to_phone_number,
+                                         from_=self.from_phone_number,
+                                         body=message)
