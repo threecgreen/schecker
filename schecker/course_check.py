@@ -1,10 +1,16 @@
 """
-Contains all logic for checking class availability from the classes.usc.edu website.
+Contains the CourseToCheck namedtuple used for program configuration and all logic for checking class availability 
+from the classes.usc.edu website.
 """
 import logging
 import re
 import requests
 from bs4 import BeautifulSoup
+from collections import namedtuple
+
+
+CourseToCheck = namedtuple("CourseToCheck", ["name", "section_number", "schedule_url",
+                                             "contact_phone_number"])
 
 
 def get_webpage_soup(url: str) -> BeautifulSoup:
