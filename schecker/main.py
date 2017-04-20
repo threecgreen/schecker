@@ -5,11 +5,20 @@ California courses and then send SMS notifications when spots become available.
 To check continuously, simply add the --continuous True flag
 """
 import argparse
+import os
 import logging
 from time import sleep
 from typing import List
 
-import schecker.config as config
+try:
+    import schecker.config as config
+except ImportError:
+    logging.info("ImportError: No config.py file found")
+    if os.environ.get("CI"):
+        logging.debug("Continuous Integration, so ImportError was ignored.")
+        import schecker.config_template as config
+    else:
+        raise ImportError
 from schecker import check_course_availability, CourseToCheck, SMSNotifier
 
 
@@ -37,7 +46,6 @@ def check_and_notify(sms_notifier: SMSNotifier, courses_to_check: List[CourseToC
             logging.info("{num_seats} available seats found for {course} section {section}."
                          .format(num_seats=seats_available, course=course.name, section=course.section_number))
             sms_notifier.notify(message, course.contact_phone_number)
-            logging.debug("Message sent to {}.".format(course.contact_phone_number))
             courses_to_check.pop(i)
             logging.debug("{} removed from list of courses to check".format(course.name))
         else:
