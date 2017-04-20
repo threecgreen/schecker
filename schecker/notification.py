@@ -1,10 +1,20 @@
 """
 Contains SMSNotifier class for creating objects that send SMS notifications using Twilio.
 """
+import logging
+import os
 from twilio.rest import TwilioRestClient
 from typing import List
 
-import schecker.config as config
+try:
+    import schecker.config as config
+except ImportError:
+    logging.info("ImportError: No config.py file found")
+    if os.environ.get("CI"):
+        logging.debug("Continuous Integration, so ImportError was ignored.")
+        import schecker.config_template as config
+    else:
+        raise ImportError
 
 
 class SMSNotifier(object):
@@ -46,3 +56,4 @@ class SMSNotifier(object):
             self._client.messages.create(to=to_phone_number,
                                          from_=self.from_phone_number,
                                          body=message)
+            logging.debug("Message sent to {}.".format(to_phone_number))
