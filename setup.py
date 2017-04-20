@@ -17,7 +17,7 @@ reqs = [str(ir.req) for ir in install_reqs]
 
 setup(
     name="schecker",
-    version="0.2.0",
+    version="0.2.1",
     description="Monitors and notifies when requested USC courses open up.",
     author="Carter Green",
     license="MIT License",
